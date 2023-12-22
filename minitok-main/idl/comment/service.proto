@@ -1,0 +1,46 @@
+syntax = "proto3";
+package comment;
+option go_package = "comment";
+
+import "comment/model.proto";
+
+message ActionRequest {
+  string token = 1;
+  int64 video_id = 2;
+  int32 action_type = 3;
+  string comment_text = 4;
+  int64 comment_id = 5;
+}
+
+message ActionResponse {
+  int32 status_code = 1;
+  string status_msg = 2;
+  Comment comment = 3;
+}
+
+message ListRequest {
+  string token = 1;
+  int64 video_id = 2;
+}
+
+message ListResponse {
+  int32 status_code = 1;
+  string status_msg = 2;
+  repeated Comment comment_list = 3;
+}
+
+message CountRequest {
+  repeated int64 video_id_list = 1;
+}
+
+message CountResponse{
+  int32 status_code = 1;
+  string status_msg = 2;
+  repeated int64 comment_count_list = 3;
+}
+
+service CommentService {
+  rpc Action(ActionRequest) returns (ActionResponse);
+  rpc List(ListRequest) returns (ListResponse);
+  rpc Count(CountRequest) returns(CountResponse);
+}
